@@ -28,13 +28,13 @@ public class BoardController {
 	
 	/**
 	 * 게시글 리스트 및 메인화면
-	 * @param pageNum 현재페이지 번호
+	 * @param currentPage 현재페이지 번호
 	 * @return 게시글 리스트 페이지
 	 */
 	@RequestMapping(value = "/")
-	public String main(Model model, @RequestParam(defaultValue = "1") int pageNum) {
+	public String main(Model model, @RequestParam(defaultValue = "1") int currentPage) {
 		// 페이지 정보
-		Map<String, Integer> pageInfoMap = boardService.setPageInfo(pageNum);
+		Map<String, Integer> pageInfoMap = boardService.setPageInfo(currentPage);
 		// 게시글 리스트
 		List<BoardVO> boardList = boardService.getBoardList(pageInfoMap);
 
@@ -49,11 +49,12 @@ public class BoardController {
 	 * @return 게시글 상세페이지
 	 */
 	@RequestMapping(value = "/readBoard", method = RequestMethod.GET)
-	public String readBoard(Model model, int boardIdx) {
+	public String readBoard(Model model, int boardIdx, int currentPage) {
 		// 게시글 상세정보
 		BoardVO board = boardService.getBoard(boardIdx);
 
 		model.addAttribute("board", board);
+		model.addAttribute("currentPage", currentPage);
 
 		return "boardView";
 	}

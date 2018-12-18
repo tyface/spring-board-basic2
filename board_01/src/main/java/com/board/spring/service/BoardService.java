@@ -30,5 +30,5 @@ public interface BoardService {
 	public boolean deleteBoard(int boardIdx);
 
 	// 페이지 정보 셋팅
-	public Map<String, Integer> setPageInfo(int pageNum);
+	public Map<String, Integer> setPageInfo(int currentPage);
 }
