@@ -16,7 +16,7 @@
   	
   	/* 게시글 리스트 페이지로 이동 */
 		function viewBoardList(){
-			location.href = "${pageContext.request.contextPath}";
+			location.href = "${pageContext.request.contextPath}/?currentPage=${currentPage}";
 	  }
 	  
   	/* 게시글 상세보기에서 게시글 수정으로 전환*/
@@ -91,7 +91,7 @@
 	        <button type="submit" class="btn btn-primary" id="modifySecBtn" style="display:none">수정 완료</button>
 	        <button type="button" class="btn btn-default" onclick="modifyBoardForm(${board.boardIdx})" id="modifyBtn">수정</button>
 	        <button type="button" class="btn btn-default" onclick="deleteBoard(${board.boardIdx})">삭제</button>
-	        <button type="button" class="btn btn-primary" style="float:right" onclick="viewBoardList()">목록</button>
+	        <button type="button" class="btn btn-primary" style="float:right" onclick="viewBoardList(${currentPage})">목록</button>
 	      </div>
 	    </div>
 	  </form>
