@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.board.spring.dao.BoardDao">
+	
+	<!-- 게시글 목록 -->
+	<select id="selectBoardList" parameterType="map" resultType="boardVO">
+		SELECT 		boardNum, title, name, 				<!-- 게시글 번호, 제목, 작성자 이름 --> 
+							password, contents, regDate		<!-- 비밀번호, 내용, 작성일자 -->
+		FROM 			board
+		ORDER BY 	boardNum DESC
+		LIMIT 		#{startNum}, #{listCount} 		<!-- 시작글 번호, 한번에 가져와야할 게시글 개수 -->
+	</select>
+	
+	<!-- 게시글 전체 갯수 조회 -->
+	<select id="selectAllCount" resultType="int">
+		SELECT 	COUNT(*)
+		FROM 		board
+	</select>
+	
+	<!-- 게시글 가져오기 -->
+	<select id="selectOneBoard" parameterType="int" resultType="boardVO">
+		SELECT 	boardNum, title, name, 				<!-- 게시글 번호, 제목, 작성자 이름 --> 
+						password, contents, regDate		<!-- 비밀번호, 내용, 작성일자 -->
+		FROM 		board 
+		WHERE 	boardNum = #{boardNum}				<!-- 게시글 번호 -->
+	</select>
+	
+	<!-- 게시글 추가 -->
+	<insert id="insertBoard" parameterType="boardVO">
+		INSERT 
+		INTO 		board (boardNum, title, name, password, contents, regDate)	<!-- 게시글 번호, 제목, 작성자 이름, 비밀번호, 내용, 작성일자 --> 
+		VALUE 	(0, #{title}, #{name}, #{password}, #{contents}, SYSDATE())
+	</insert>
+	
+	<!-- 게시글 수정 -->
+	<update id="updateBoard" parameterType="boardVO">
+		UPDATE 	board 
+		SET 		title = #{title}, name = #{name},	 							<!-- 제목, 작성자 이름 --> 
+						password = #{password}, contents = #{contents}	<!-- 비밀번호, 내용 --> 
+		WHERE		boardNum = #{boardNum}													<!-- 게시글 번호 -->
+	</update>
+	
+	<!-- 게시글 삭제 -->
+	<delete id="deleteBoard" parameterType="int">
+		DELETE 
+		FROM		board
+		WHERE		boardNum = #{boardNum}					<!-- 게시글 번호 -->
+	</delete>
+	
+</mapper>
