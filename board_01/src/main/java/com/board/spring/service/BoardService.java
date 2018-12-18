@@ -18,7 +18,7 @@ public interface BoardService {
 	public List<BoardVO> getBoardList(Map<String, Integer> pageInfoMap);
 
 	// 게시글 가져오기
-	public BoardVO getBoard(int boardNum);
+	public BoardVO getBoard(int boardIdx);
 
 	// 게시글 추가
 	public boolean addBoard(BoardVO board);
@@ -27,7 +27,7 @@ public interface BoardService {
 	public boolean modifyBoard(BoardVO board);
 
 	// 게시글 삭제
-	public boolean deleteBoard(int boardNum);
+	public boolean deleteBoard(int boardIdx);
 
 	// 페이지 정보 셋팅
 	public Map<String, Integer> setPageInfo(int pageNum);

@@ -48,6 +48,7 @@ public class Comm {
 		// 현제페이지의 첫번째 게시글 번호
 		int startNum = currentPage * pageListCount - pageListCount;
 		
+		pageInfoMap.put("totalCount", totalCount);		// 전체 게시글 갯수
 		pageInfoMap.put("firstPage", firstPage);		// 현제 페이지 기준 처음 페이지 번호
 		pageInfoMap.put("lastPage", lastPage);			// 현제 페이지 기준 마지막 페이지 번호
 		pageInfoMap.put("startNum", startNum);			// 현제 페이지의 첫번째 게시글 번호

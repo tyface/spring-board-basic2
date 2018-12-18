@@ -7,20 +7,29 @@ import java.sql.Timestamp;
  * @author 유지상
  */
 public class BoardVO {
-
-	private int boardNum; 		// 게시글 번호
+	
+	private int rowNum; 		// 줄번호 번호
+	private int boardIdx; 		// 게시글 번호
 	private String title; 		// 제목
 	private String name; 		// 작성자
 	private String password; 	// 비밀번호
 	private String contents; 	// 내용
 	private Timestamp regDate;	// 작성일
 
-	public int getBoardNum() {
-		return boardNum;
+	public int getRowNum() {
+		return rowNum;
 	}
 
-	public void setBoardNum(int boardNum) {
-		this.boardNum = boardNum;
+	public void setRowNum(int rowNum) {
+		this.rowNum = rowNum;
+	}
+	
+	public int getBoardIdx() {
+		return boardIdx;
+	}
+
+	public void setBoardIdx(int boardIdx) {
+		this.boardIdx = boardIdx;
 	}
 
 	public String getTitle() {
@@ -65,7 +74,7 @@ public class BoardVO {
 
 	@Override
 	public String toString() {
-		return "Board [boardNum=" + boardNum + ", title=" + title + ", name=" + name + ", password=" + password
+		return "Board [rowNum = "+ rowNum + ", boardIdx=" + boardIdx + ", title=" + title + ", name=" + name + ", password=" + password
 				+ ", contents=" + contents + ", regDate=" + regDate + "]";
 	}
 }

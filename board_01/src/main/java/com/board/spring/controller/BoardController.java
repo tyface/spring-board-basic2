@@ -40,19 +40,18 @@ public class BoardController {
 
 		model.addAttribute("boardList", boardList);
 		model.addAttribute("pageInfo", pageInfoMap);
-
 		return "index";
 	}
 
 	/**
 	 * 게시글 상세보기
-	 * @param boardNum 게시글 번호
+	 * @param boardIdx 게시글 번호
 	 * @return 게시글 상세페이지
 	 */
 	@RequestMapping(value = "/readBoard", method = RequestMethod.GET)
-	public String readBoard(Model model, int boardNum) {
+	public String readBoard(Model model, int boardIdx) {
 		// 게시글 상세정보
-		BoardVO board = boardService.getBoard(boardNum);
+		BoardVO board = boardService.getBoard(boardIdx);
 
 		model.addAttribute("board", board);
 
@@ -87,7 +86,7 @@ public class BoardController {
 
 	/**
 	 * 게시글 수정
-	 * @param boardNum 게시글 번호
+	 * @param boardIdx 게시글 번호
 	 * @param title    제목
 	 * @param name     작성자
 	 * @param password 비밀번호
@@ -95,11 +94,11 @@ public class BoardController {
 	 * @return 게시글 상세보기
 	 */
 	@RequestMapping(value = "/modifyBoard", method = RequestMethod.POST)
-	public String modifyBoard(Model model, int boardNum, String title, String name, String password, String contents) {
+	public String modifyBoard(Model model, int boardIdx, String title, String name, String password, String contents) {
 
 		// 수정할 게시글 셋팅
 		BoardVO board = new BoardVO();
-		board.setBoardNum(boardNum);
+		board.setBoardIdx(boardIdx);
 		board.setTitle(title);
 		board.setName(name);
 		board.setPassword(password);
@@ -110,7 +109,7 @@ public class BoardController {
 
 		if (result) {
 			// 게시글 수정 완료시 해당 게시글 가져오기
-			board = boardService.getBoard(boardNum);
+			board = boardService.getBoard(boardIdx);
 		} else {
 			// TODO 수정실패시 작업
 		}
@@ -122,14 +121,14 @@ public class BoardController {
 
 	/**
 	 * 게시글 삭제
-	 * @param boardNum
+	 * @param boardIdx 게시글 번호
 	 * @return 게시글 리스트 페이지
 	 */
 	@RequestMapping(value = "/deleteBoard")
-	public String deleteBoard(int boardNum) {
+	public String deleteBoard(int boardIdx) {
 		
 		// 게시글 삭제 결과
-		boolean result = boardService.deleteBoard(boardNum);
+		boolean result = boardService.deleteBoard(boardIdx);
 
 		if (result) {
 			// TODO 삭제 완료시 작업

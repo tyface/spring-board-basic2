@@ -36,8 +36,8 @@ public class BoardServiceImp implements BoardService{
 	}
 
 	@Override //게시글 조회
-	public BoardVO getBoard(int boardNum) {
-		BoardVO board = boardDao.selectOneBoard(boardNum);
+	public BoardVO getBoard(int boardIdx) {
+		BoardVO board = boardDao.selectOneBoard(boardIdx);
 		
 		return board;
 	}
@@ -65,10 +65,10 @@ public class BoardServiceImp implements BoardService{
 	}
 
 	@Override //게시글 삭제
-	public boolean deleteBoard(int boardNum) {
+	public boolean deleteBoard(int boardIdx) {
 		boolean result = false;
 		
-		if(0 < boardDao.deleteBoard(boardNum)) {
+		if(0 < boardDao.deleteBoard(boardIdx)) {
 			result = true;
 		}
 		

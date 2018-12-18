@@ -14,8 +14,8 @@
   
   <script type="text/javascript">
   	/* 게시글 상세보기 */
-  	function readBoard(boardNum){
-  		location.href = "${pageContext.request.contextPath}" + "/readBoard?boardNum=" + boardNum;
+  	function readBoard(boardIdx){
+  		location.href = "${pageContext.request.contextPath}" + "/readBoard?boardIdx=" + boardIdx;
   	}
   	
   </script>
@@ -39,8 +39,8 @@
     
 	    <c:forEach var="board" items="${boardList}">
 				<tr>
-	    		<td class="col-xs-1">${board.boardNum}</td>
-       		<td class="col-xs-5" onclick="readBoard(${board.boardNum})">${board.title}</td>
+	    		<td class="col-xs-1">${board.rowNum}</td>
+       		<td class="col-xs-5" onclick="readBoard(${board.boardIdx})">${board.title}</td>
        		<td class="col-xs-2">${board.name}</td>
        		<td class="col-xs-4">${board.regDate}</td>
 		    </tr>

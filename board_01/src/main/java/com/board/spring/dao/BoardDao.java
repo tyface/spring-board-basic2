@@ -18,7 +18,7 @@ public interface BoardDao {
 	public List<BoardVO> selectBoardList(Map<String, Integer> pageInfoMap);
 	
 	//게시글 조회
-	public BoardVO selectOneBoard(int boardNum);
+	public BoardVO selectOneBoard(int boardIdx);
 	
 	//게시글 추가
 	public int insertBoard(BoardVO board);
@@ -27,7 +27,7 @@ public interface BoardDao {
 	public int updateBoard(BoardVO board);
 	
 	//게시글 삭제
-	public int deleteBoard(int boardNum);
+	public int deleteBoard(int boardIdx);
 	
 	//전체 게시글 갯수 카운트
 	public int selectAllCount(); 

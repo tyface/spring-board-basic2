@@ -20,7 +20,7 @@
 	  }
 	  
   	/* 게시글 상세보기에서 게시글 수정으로 전환*/
-		function modifyBoardForm(boardNum){
+		function modifyBoardForm(boardIdx){
 			passwordCheck = prompt("비밀번호를 입력해 주세요");
 			
 			if($("#password").val() == passwordCheck){
@@ -36,11 +36,11 @@
 	  }
 	
   	/* 게시글 삭제 */
-	  function deleteBoard(boardNum){
+	  function deleteBoard(boardIdx){
 		  passwordCheck = prompt("비밀번호를 입력해 주세요");
 		  
 		  if($("#password").val() == passwordCheck){
-			  location.href = "${pageContext.request.contextPath}/deleteBoard?boardNum=" + boardNum;
+			  location.href = "${pageContext.request.contextPath}/deleteBoard?boardIdx=" + boardIdx;
 			}else{
 				alert("비밀번호가 일치하지 않습니다.")
 			}
@@ -55,7 +55,7 @@
 	<div class="container">
 	  <h2 align="center">게시글 상세보기</h2><br><br>
 	  <form class="form-horizontal" action="${pageContext.request.contextPath}/modifyBoard" method="POST">
-	  	<input type = "hidden" name="boardNum" value="${board.boardNum}">
+	  	<input type = "hidden" name="boardIdx" value="${board.boardIdx}">
 	    <div class="form-group">
 	      <label class="control-label col-sm-2" for="title">제목:</label>
 	      <div class="col-sm-10">
@@ -89,8 +89,8 @@
 	    <div class="form-group">        
 	      <div class="col-sm-offset-2 col-sm-10">
 	        <button type="submit" class="btn btn-primary" id="modifySecBtn" style="display:none">수정 완료</button>
-	        <button type="button" class="btn btn-default" onclick="modifyBoardForm(${board.boardNum})" id="modifyBtn">수정</button>
-	        <button type="button" class="btn btn-default" onclick="deleteBoard(${board.boardNum})">삭제</button>
+	        <button type="button" class="btn btn-default" onclick="modifyBoardForm(${board.boardIdx})" id="modifyBtn">수정</button>
+	        <button type="button" class="btn btn-default" onclick="deleteBoard(${board.boardIdx})">삭제</button>
 	        <button type="button" class="btn btn-primary" style="float:right" onclick="viewBoardList()">목록</button>
 	      </div>
 	    </div>
