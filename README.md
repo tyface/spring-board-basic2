@@ -4,7 +4,7 @@ spring,mybatis를 활용한 간단한 게시판
 
 시작일 : 2018.12.13 ~ 
 
-스텍 : Java 1.8 / Spring-Framework 4.1.7 / MySql 5.7 / MyBatis
+스텍 : Java 1.8 / Spring-Framework 4.1.7 / MySql 5.7 / MyBatis 3.4.6 / bootstrap 3.3.7 / jquery 3.3.1
 
 1차 컨펌일 : 12.17
 
