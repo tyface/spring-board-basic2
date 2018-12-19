@@ -4,10 +4,12 @@ var type = '';
 var bno = '';
 
 $(function(){
-	$("#writeBoard").click(function(){
+	
+	$("#writeForm").submit(function(){
 		
 		url = "writeBoard";
 		type = "POST";
+		
 		var data = {
 			"title" : $("#title").val(),
 			"name" : $("#name").val(),
