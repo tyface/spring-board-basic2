@@ -3,12 +3,9 @@ package com.board.spring.common;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.context.annotation.Configuration;
-
 /**
  * 공용 메서드
  * @author 유지상
- *
  */
 public class Comm {
 	
