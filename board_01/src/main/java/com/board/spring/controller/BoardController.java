@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,7 +29,7 @@ public class BoardController {
 	
 	/**
 	 * 게시글 리스트 및 메인화면
-	 * @param currentPage 현재페이지 번호
+	 * @param currentPage	현재페이지 번호
 	 * @return 게시글 리스트 페이지
 	 */
 	@RequestMapping(value = "/")
@@ -40,12 +41,14 @@ public class BoardController {
 
 		model.addAttribute("boardList", boardList);
 		model.addAttribute("pageInfo", pageInfoMap);
+		
 		return "index";
 	}
 
 	/**
 	 * 게시글 상세보기
-	 * @param boardIdx 게시글 번호
+	 * @param boardIdx		게시글 번호
+	 * @param currentPage	현제 페이지
 	 * @return 게시글 상세페이지
 	 */
 	@RequestMapping(value = "/readBoard", method = RequestMethod.GET)
@@ -61,19 +64,10 @@ public class BoardController {
 
 	/**
 	 * 게시글 작성
-	 * @param title    제목
-	 * @param name     장성자
-	 * @param password 비밀번호
-	 * @param contents 내용
+	 * @param board	게시글
 	 */
 	@RequestMapping(value = "/writeBoard", method = RequestMethod.POST)
-	public void writeBoard(HttpServletResponse resp, String title, String name, String password, String contents) {
-		// 추가할 게시글 객체 셋팅
-		BoardVO board = new BoardVO();
-		board.setTitle(title);
-		board.setName(name);
-		board.setPassword(password);
-		board.setContents(contents);
+	public void writeBoard(HttpServletResponse resp, @ModelAttribute("board") BoardVO board) {
 
 		// 게시글 추가 결과
 		boolean result = boardService.addBoard(board);
@@ -87,46 +81,35 @@ public class BoardController {
 
 	/**
 	 * 게시글 수정
-	 * @param boardIdx 게시글 번호
-	 * @param title    제목
-	 * @param name     작성자
-	 * @param password 비밀번호
-	 * @param contents 내용
-	 * @return 게시글 상세보기
+	 * @param board 게시글
+	 * @param currentPage 현제 페이지
 	 */
 	@RequestMapping(value = "/modifyBoard", method = RequestMethod.POST)
-	public String modifyBoard(Model model, int boardIdx, String title, String name, String password, String contents) {
-
-		// 수정할 게시글 셋팅
-		BoardVO board = new BoardVO();
-		board.setBoardIdx(boardIdx);
-		board.setTitle(title);
-		board.setName(name);
-		board.setPassword(password);
-		board.setContents(contents);
-
+	public String modifyBoard(Model model, @ModelAttribute("board") BoardVO board, int currentPage) {
 		// 게시글 수정 결과
 		boolean result = boardService.modifyBoard(board);
 
 		if (result) {
 			// 게시글 수정 완료시 해당 게시글 가져오기
-			board = boardService.getBoard(boardIdx);
+			board = boardService.getBoard(board.getBoardIdx());
 		} else {
 			// TODO 수정실패시 작업
 		}
 
 		model.addAttribute("board", board);
+		model.addAttribute("currentPage", currentPage);
 
 		return "boardView";
 	}
 
 	/**
 	 * 게시글 삭제
-	 * @param boardIdx 게시글 번호
+	 * @param boardIdx		게시글 번호
+	 * @param currentPage	현제 페이지
 	 * @return 게시글 리스트 페이지
 	 */
 	@RequestMapping(value = "/deleteBoard")
-	public String deleteBoard(int boardIdx) {
+	public String deleteBoard(int boardIdx, int currentPage) {
 		
 		// 게시글 삭제 결과
 		boolean result = boardService.deleteBoard(boardIdx);
@@ -136,6 +119,6 @@ public class BoardController {
 		} else {
 			// TODO 삭제 실패시 작업
 		}
-		return "redirect:/";
+		return "redirect:/?currentPage=" + currentPage;
 	}
 }
