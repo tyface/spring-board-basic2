@@ -13,7 +13,7 @@ public class Comm {
 	 * 페이징 정보 셋팃
 	 * @param currentPage		현제페이지 번호
 	 * @param totalCount 		전체 게시글 갯수
-	 * @param pageListCount한 	한페이지에 보여질 게시글 갯수
+	 * @param pageListCount 	한페이지에 보여질 게시글 갯수
 	 * @param pageNavCount 	  	한번에 보여줄 페이지 네비게이터에 갯수(한줄에 몇개의 페이지번호 표출 할 것인지)
 	 * @return 페이지 정보 
 	 */
@@ -32,18 +32,19 @@ public class Comm {
 		// 현제 페이지 기준 마지막 페이지 번호
 		int lastPage = firstPage + (pageListCount-1);
 		
-
 		// 페이지 번호 예외처리
-		if(currentPage < 1) {
+		if(currentPage <= 1) {
 			currentPage = 1;
 		}else if (currentPage > totalPage) {
 			currentPage = totalPage;
-		}else if (lastPage > totalPage) {
+		}
+		
+		if (lastPage > totalPage) {
 			lastPage = totalPage;
 		}
 		
 		// 현제페이지의 첫번째 게시글 번호
-		int startNum = currentPage * pageListCount - pageListCount;
+		int startNum = (currentPage - 1 ) * pageListCount;
 		
 		pageInfoMap.put("totalCount", totalCount);		// 전체 게시글 갯수
 		pageInfoMap.put("firstPage", firstPage);		// 현제 페이지 기준 처음 페이지 번호
