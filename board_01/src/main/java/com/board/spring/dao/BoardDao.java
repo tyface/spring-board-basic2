@@ -17,6 +17,9 @@ public interface BoardDao {
 	// 게시글 리스트 조회
 	public List<BoardVO> selectBoardList(Map<String, Integer> pageInfoMap);
 	
+	// 검색 게시글 조회
+	public List<BoardVO> selectBoardByKeyword(Map<String, Object> data);
+	
 	// 게시글 조회
 	public BoardVO selectOneBoard(int boardIdx);
 	
@@ -32,6 +35,9 @@ public interface BoardDao {
 	// 전체 게시글 갯수 카운트
 	public int selectAllCount(); 
 	
+	// 검색 게시글 갯수 카운트
+	public int selectCountByKeyword(Map<String, Object> data); 
+		
 	// 비밀번호 확인
 	public String selectPassword(int boardIdx);
 }

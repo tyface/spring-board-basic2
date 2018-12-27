@@ -14,9 +14,14 @@
   <script type="text/javascript">
   	var rsaPublicKeyModulus = '${publicKeyModulus}';
   	var rsaPublicKeyExponent = '${publicKeyExponent}';
+  	
   	/* 게시글 상세보기 */ 
   	function readBoard(boardIdx, currentPage){ //	게시글 번호 , 현제 페이지
   		location.href = "${pageContext.request.contextPath}" + "/readBoard?boardIdx=" + boardIdx + "&currentPage=" + currentPage;
+  	}
+  	
+  	function searchBoard(){
+  		
   	}
   </script>
 </head>
@@ -25,6 +30,7 @@
 	<div class="container">
 		<h2 align="center">게시판</h2><br><br>
 	  
+	  <!-- 게시글 리스트 -->
 	  <table class="table">
 	    <thead>
 	      <tr>
@@ -35,7 +41,6 @@
 	      </tr>
 	    </thead>
 	    <tbody>
-	    
 		    <c:forEach var="board" items="${boardList}">
 					<tr>
 		    		<td class="col-xs-1">${board.rowNum}</td>
@@ -44,10 +49,32 @@
 	       		<td class="col-xs-4">${board.regDate}</td>
 			    </tr>
 				</c:forEach>
-				
 	    </tbody>
 	  </table>
 	  
+	  <!-- 검색바 -->
+	
+	  <div class="row">
+		  <div class="col-xs-offset-3 col-xs-6">
+		    <form action="${pageContext.request.contextPath}/searchBoard" method="post">
+			    <div class="input-group">
+			    	<div class="input-group-btn">
+				      <select class="form-control" id="searchType" name="type" style="width:100px;"> 
+						    <option value="title">제목</option> 
+						    <option value="contents">내용</option> 
+						    <option value="name">작성자</option> 
+					    </select>
+				    </div>
+			      <input type="text" class="form-control" placeholder="Search for..." id="searchWord" name="keyword">
+			      <span class="input-group-btn">
+			        <input type="submit" class="btn btn-default" id="searchBtn" value="검색">
+			      </span>
+			    </div>
+		    </form>
+		  </div>
+		</div>
+	
+	  <!-- 페이지 네비게이션 --> 
 		<nav aria-label="Page navigation example" style="text-align:center">
 		  <ul class="pagination">
 		    <li class="page-item">

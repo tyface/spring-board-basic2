@@ -1,7 +1,7 @@
 package com.board.spring.controller;
 
 import java.io.IOException;
-import java.security.PrivateKey;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.mindrot.jbcrypt.BCrypt;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,8 +21,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.board.spring.model.BoardVO;
-import com.board.spring.security.RSA;
 import com.board.spring.service.BoardService;
+
+import java.security.PrivateKey;
+import com.board.spring.security.RSA;
 
 /**
  * 게시글 Controller
@@ -32,6 +36,16 @@ public class BoardController {
 	@Autowired // 게시글 서비스 객체
 	BoardService boardService;
 	
+	protected Logger log = LoggerFactory.getLogger(BoardController.class);
+
+	@RequestMapping(value = "/logTest")
+	public String logTest() {
+		log.debug("로그출력 Test[debug]");
+		log.info("로그출력 Test[info]");
+		
+		return "index";
+	}
+	
 	/**
 	 * 게시글 리스트 및 메인화면
 	 * @param currentPage	현재페이지 번호
@@ -40,7 +54,7 @@ public class BoardController {
 	@RequestMapping(value = "/")
 	public String main(HttpServletRequest req, Model model, @RequestParam(defaultValue = "1") int currentPage) {
 		// 페이지 정보
-		Map<String, Integer> pageInfoMap = boardService.setPageInfo(currentPage);
+		Map<String, Integer> pageInfoMap = boardService.setPageInfo(currentPage, boardService.boardAllCount());
 		// 게시글 리스트
 		List<BoardVO> boardList = boardService.getBoardList(pageInfoMap);
 
@@ -51,7 +65,35 @@ public class BoardController {
 		model.addAttribute("publicKeyModulus", rsa.getPublicKeyModulus());
 		model.addAttribute("publicKeyExponent", rsa.getPublicKeyExponent());
 		req.getSession().setAttribute("__rsaPrivateKey__", rsa.getPrivateKey());
-
+		
+		return "index";
+	}
+	
+	/**
+	 * 게시글 검색
+	 * @param currentPage	현재페이지 번호
+	 * @return 게시글 리스트 페이지
+	 */
+	@RequestMapping(value = "/searchBoard")
+	public String searchBoard(Model model, String keyword, String type, @RequestParam(defaultValue = "1") int currentPage) {
+		// dataMap 
+		Map<String, Object> data = new HashMap<String, Object>();
+		data.put("keyword", keyword);
+		data.put("type", type);
+		
+		// 페이지 정보
+		Map<String, Integer> pageInfoMap = boardService.setPageInfo(currentPage, boardService.boardCount(data));
+		
+		data.put("pageInfoMap", pageInfoMap);
+		
+		// 검색 게시글 리스트
+		List<BoardVO> boardList = boardService.getBoardByKeyword(data);
+	
+		model.addAttribute("boardList", boardList);
+		model.addAttribute("pageInfo", pageInfoMap);
+		model.addAttribute("keyword", keyword);
+		model.addAttribute("type", type);
+		
 		return "index";
 	}
 
@@ -95,7 +137,7 @@ public class BoardController {
 		boolean result = boardService.addBoard(board);
 
 		try { // 결과값 ajax로 전송
-			resp.getWriter().println(result);
+			resp.getWriter().print(result);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -104,6 +146,7 @@ public class BoardController {
 	/**
 	 * 게시글 수정
 	 * @param board 게시글
+	 * @param newPassword 비밀번호(재설정 할 때만 사용)
 	 * @param currentPage 현제 페이지
 	 */
 	@RequestMapping(value = "/modifyBoard", method = RequestMethod.POST)
@@ -153,11 +196,13 @@ public class BoardController {
 	
 	/**
 	 * 비밀번호 검사
+	 * @param boardIdx		게시글 일련번호
 	 * @param password		비밀번호
 	 */
 	@RequestMapping(value = "/checkPassword")
 	public void checkPassword(HttpServletResponse resp ,int boardIdx, String password) {
 		boolean result = false;
+		// 비밀번호 검사 결과
 		result = boardService.checkPassword(boardIdx, password);
 		
 		try { // 결과값 ajax로 전송

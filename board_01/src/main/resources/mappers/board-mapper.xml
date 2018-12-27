@@ -13,10 +13,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		LIMIT 		#{startNum}, #{listCount};	<!-- 시작글 번호, 한번에 가져와야할 게시글 개수 -->
 	</select>
 	
+	<!-- 검색 게시글 목록 -->
+	<select id="selectBoardByKeyword" parameterType="map" resultType="boardVO">
+		SELECT 		@rowNum:=@rowNum - 1 as rowNum, boardIdx, title, name, password, contents, regDate
+		FROM 			board, (SELECT @rowNum:=#{pageInfoMap.totalCount} - #{pageInfoMap.startNum} + 1) a
+		WHERE 		${type} LIKE CONCAT('%',#{keyword},'%')
+		ORDER BY 	boardIdx DESC
+		LIMIT 		#{pageInfoMap.startNum}, #{pageInfoMap.listCount}	<!-- 시작글 번호, 한번에 가져와야할 게시글 개수 -->
+	</select>
+	
 	<!-- 게시글 전체 갯수 조회 -->
 	<select id="selectAllCount" resultType="int">
 		SELECT 	COUNT(*)
 		FROM 		board
+	</select>
+	
+	<!-- 게시글 전체 갯수 조회 -->
+	<select id="selectCountByKeyword" resultType="int" parameterType="map">
+		SELECT 	COUNT(*)
+		FROM 		board
+		WHERE 	${type} LIKE CONCAT('%',#{keyword},'%')
 	</select>
 	
 	<!-- 게시글 가져오기 -->
