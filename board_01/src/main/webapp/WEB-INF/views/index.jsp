@@ -11,10 +11,9 @@
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-  <!-- 암호화 관련 cdn -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jsencrypt/2.3.1/jsencrypt.min.js"></script>  
-  
   <script type="text/javascript">
+  	var rsaPublicKeyModulus = '${publicKeyModulus}';
+  	var rsaPublicKeyExponent = '${publicKeyExponent}';
   	/* 게시글 상세보기 */ 
   	function readBoard(boardIdx, currentPage){ //	게시글 번호 , 현제 페이지
   		location.href = "${pageContext.request.contextPath}" + "/readBoard?boardIdx=" + boardIdx + "&currentPage=" + currentPage;

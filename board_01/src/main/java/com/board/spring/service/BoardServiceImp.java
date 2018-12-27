@@ -3,6 +3,7 @@ package com.board.spring.service;
 import java.util.List;
 import java.util.Map;
 
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
@@ -46,6 +47,9 @@ public class BoardServiceImp implements BoardService{
 	public boolean addBoard(BoardVO board) {
 		boolean result = false;
 		
+		//비밀번호 암호화
+		board.setPassword(BCrypt.hashpw(board.getPassword(), BCrypt.gensalt(10)));
+		
 		if(0 < boardDao.insertBoard(board)) {
 			result = true;
 		}
@@ -69,6 +73,23 @@ public class BoardServiceImp implements BoardService{
 		boolean result = false;
 		
 		if(0 < boardDao.deleteBoard(boardIdx)) {
+			result = true;
+		}
+		
+		return result;
+	}
+	
+	@Override //비밀번호 확인
+	public boolean checkPassword(int boardIdx, String password) {
+		boolean result = false;
+		
+		// 데이터베이스에 있는 비밀번호
+		String sPassword = boardDao.selectPassword(boardIdx);
+		
+		// 입력받은 비밀번호와 암호화되어 저장되어있는 비밀번호를 검증
+		boolean isValidPassword = BCrypt.checkpw(password, sPassword);
+		
+		if(isValidPassword) {
 			result = true;
 		}
 		

@@ -1,6 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
+<!-- 모달 -->
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/modal.js"></script>
-
+<!-- 암호화 기능 -->
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/encryption/encryption.js"></script>
+<!-- 암호화 관련 라이브러리 -->
+<script src="${pageContext.request.contextPath}/resources/js/encryption/jsbn.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/encryption/prng4.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/encryption/rng.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/encryption/rsa.js"></script>
 
 <div class="modal-header">
 	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
@@ -33,10 +40,5 @@
 	</div>
 </form>
 
-<script type="text/javascript">
 
-/* //게시글 추가시 유효성 검사
-	$("#writeForm").validate(); */
-	
-</script>
 	

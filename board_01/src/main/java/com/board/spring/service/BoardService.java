@@ -29,6 +29,9 @@ public interface BoardService {
 	// 게시글 삭제
 	public boolean deleteBoard(int boardIdx);
 
+	// 게시글 비밀번호 확인
+	public boolean checkPassword(int boardIdx, String password);
+	
 	// 페이지 정보 셋팅
 	public Map<String, Integer> setPageInfo(int currentPage);
 }

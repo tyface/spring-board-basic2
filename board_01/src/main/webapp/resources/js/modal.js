@@ -6,6 +6,8 @@ var bno = '';
 $(function(){
 	
 	$("#writeForm").submit(function(){
+		//비밀번호 암호화 (RSA)
+		var encPassword = fnRsaEnc($("#password").val(), rsaPublicKeyModulus, rsaPublicKeyExponent);
 		
 		url = "writeBoard";
 		type = "POST";
@@ -13,7 +15,7 @@ $(function(){
 		var data = {
 			"title" : $("#title").val(),
 			"name" : $("#name").val(),
-			"password" : $("#password").val(),
+			"password" : encPassword,
 			"contents" : $("#contents").val()
 		};
 		
@@ -28,8 +30,12 @@ $(function(){
 			error: function(){
 				alert("게시글 등록 실패");
 			},
-			complete : function(){location.reload();}
+			complete : function(){
+				location.reload();
+			}
+			
 		})
+		return false;
 	})
 	
 });
