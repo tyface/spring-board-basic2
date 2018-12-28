@@ -30,7 +30,7 @@ public class BoardServiceImp implements BoardService{
 	
 	
 	@Override //게시글 리스트 조회
-	public List<BoardVO> getBoardList(Map<String, Integer> pageInfoMap) {
+	public List<BoardVO> getBoardList(Map<String, Object> pageInfoMap) {
 		List<BoardVO> boardList = boardDao.selectBoardList(pageInfoMap);
 		
 		return boardList;
@@ -103,18 +103,13 @@ public class BoardServiceImp implements BoardService{
 		return result;
 	}
 	
-	// 게시글 갯수 가져오기(검색)
+	// 게시글 갯수 가져오기
 	public int boardCount(Map<String, Object> data) {
 		return boardDao.selectCountByKeyword(data);
 	};
 	
-	// 게시글 갯수 가져오기(전체)
-	public int boardAllCount() {
-		return boardDao.selectAllCount();
-	};
-	
 	@Override //페이지 정보 셋팅
-	public Map<String, Integer> setPageInfo(int currentPage, int totalCount){
+	public Map<String, Object> setPageInfo(int currentPage, int totalCount, String keyword, String type){
 		// 한페이지에 보여질 게시글 갯수
 		int pageListCount = Integer.parseInt(env.getProperty("page_list_count"));
 		// 한번에 보여줄 페이지 네비게이터에 갯수(한줄에 몇개의 페이지번호 표출 할 것인지)
@@ -123,8 +118,8 @@ public class BoardServiceImp implements BoardService{
 		/* 페이지 정보 셋팅
 		 * 현제 페이지 번호, 전체 게시글 갯수, 한페이지에 보여질 게시글 갯수, 한번에 보여줄 페이지 네비게이터에 갯수
 		 */
-		Map<String, Integer> pageInfoMap = 
-				Comm.setPageInfo(currentPage, totalCount, pageListCount, pageNavCount);
+		Map<String, Object> pageInfoMap = 
+				Comm.setPageInfo(currentPage, totalCount, pageListCount, pageNavCount, keyword, type);
 		
 		
 		return pageInfoMap;

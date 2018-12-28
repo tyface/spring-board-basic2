@@ -6,27 +6,31 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 게시글 목록 -->
 	<select id="selectBoardList" parameterType="map" resultType="boardVO">
-		SELECT 		@rowNum:=@rowNum - 1 as rowNum, boardIdx, title, name, 				<!-- 줄 번호게시글 번호, 제목, 작성자 이름 --> 
-							password, contents, regDate		<!-- 비밀번호, 내용, 작성일자 -->
-		FROM 			board, (SELECT @rowNum:=#{totalCount} - #{startNum} + 1) a
-		ORDER BY 	boardIdx DESC
+		SELECT 		rowNum, boardIdx, title, name, password, contents, regDate
+		FROM 			(SELECT 		@rowNum:=@rowNum + 1 AS rowNum, boardIdx, title, name, password, contents, regDate
+								FROM 			board, (SELECT @rowNum:=0) a
+								WHERE 		${type} LIKE CONCAT('%',#{keyword},'%')
+							) a		
+		ORDER BY 	rowNum DESC 
 		LIMIT 		#{startNum}, #{listCount};	<!-- 시작글 번호, 한번에 가져와야할 게시글 개수 -->
 	</select>
 	
 	<!-- 검색 게시글 목록 -->
 	<select id="selectBoardByKeyword" parameterType="map" resultType="boardVO">
-		SELECT 		@rowNum:=@rowNum - 1 as rowNum, boardIdx, title, name, password, contents, regDate
-		FROM 			board, (SELECT @rowNum:=#{pageInfoMap.totalCount} - #{pageInfoMap.startNum} + 1) a
-		WHERE 		${type} LIKE CONCAT('%',#{keyword},'%')
-		ORDER BY 	boardIdx DESC
-		LIMIT 		#{pageInfoMap.startNum}, #{pageInfoMap.listCount}	<!-- 시작글 번호, 한번에 가져와야할 게시글 개수 -->
+		SELECT 		rowNum, boardIdx, title, name, password, contents, regDate
+		FROM 			(SELECT 		@rowNum:=@rowNum + 1 AS rowNum, boardIdx, title, name, password, contents, regDate
+								FROM 			board, (SELECT @rowNum:=0) a
+								WHERE 		${type} LIKE CONCAT('%',#{keyword},'%')
+							) a		
+		ORDER BY 	rowNum DESC 
+		LIMIT 		#{startNum}, #{listCount};	<!-- 시작글 번호, 한번에 가져와야할 게시글 개수 -->
 	</select>
 	
-	<!-- 게시글 전체 갯수 조회 -->
+	<!-- 게시글 전체 갯수 조회
 	<select id="selectAllCount" resultType="int">
 		SELECT 	COUNT(*)
 		FROM 		board
-	</select>
+	</select> -->
 	
 	<!-- 게시글 전체 갯수 조회 -->
 	<select id="selectCountByKeyword" resultType="int" parameterType="map">

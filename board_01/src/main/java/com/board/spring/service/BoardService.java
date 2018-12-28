@@ -15,7 +15,7 @@ import com.board.spring.model.BoardVO;
 public interface BoardService {
 
 	// 게시글 리스트 가져오기
-	public List<BoardVO> getBoardList(Map<String, Integer> pageInfoMap);
+	public List<BoardVO> getBoardList(Map<String, Object> pageInfoMap);
 	
 	// 검색한 게시글 리스트 가져오기
 	public List<BoardVO> getBoardByKeyword(Map<String, Object> data);
@@ -35,12 +35,9 @@ public interface BoardService {
 	// 게시글 비밀번호 확인
 	public boolean checkPassword(int boardIdx, String password);
 	
-	// 게시글 갯수 가져오기(검색)
+	// 게시글 갯수 가져오기
 	public int boardCount(Map<String, Object> data);
 	
-	// 게시글 갯수 가져오기(전체)
-	public int boardAllCount();
-	
 	// 페이지 정보 셋팅
-	public Map<String, Integer> setPageInfo(int currentPage, int totalCount);
+	public Map<String, Object> setPageInfo(int currentPage, int totalCount, String keyword, String type);
 }

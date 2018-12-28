@@ -20,8 +20,29 @@
   		location.href = "${pageContext.request.contextPath}" + "/readBoard?boardIdx=" + boardIdx + "&currentPage=" + currentPage;
   	}
   	
-  	function searchBoard(){
+  	function paging(pageNum){
+  		var form = document.createElement("form");
   		
+  		path = "${pageContext.request.contextPath}/";
+  		method = "post"; 
+ 	    params = {"currentPage": pageNum,
+ 	    					"keyword": "${pageInfo.keyword}",
+ 	    					"type":	"${pageInfo.type}",
+ 	    					};
+ 	    console.log(params);
+ 	    form.setAttribute("method", method);
+ 	    form.setAttribute("action", path);
+ 	    
+ 	    for(var key in params) {
+ 	        var hiddenField = document.createElement("input");
+ 	        hiddenField.setAttribute("type", "hidden");
+ 	        hiddenField.setAttribute("name", key);
+ 	        hiddenField.setAttribute("value", params[key]);
+ 	        form.appendChild(hiddenField);
+ 	    }
+ 	    
+ 	    document.body.appendChild(form);
+ 	    form.submit();
   	}
   </script>
 </head>
@@ -56,7 +77,7 @@
 	
 	  <div class="row">
 		  <div class="col-xs-offset-3 col-xs-6">
-		    <form action="${pageContext.request.contextPath}/searchBoard" method="post">
+		    <form action="${pageContext.request.contextPath}/" method="post">
 			    <div class="input-group">
 			    	<div class="input-group-btn">
 				      <select class="form-control" id="searchType" name="type" style="width:100px;"> 
@@ -78,7 +99,7 @@
 		<nav aria-label="Page navigation example" style="text-align:center">
 		  <ul class="pagination">
 		    <li class="page-item">
-		      <a class="page-link" href="${pageContext.request.contextPath}/?currentPage=${pageInfo.prevPage}" aria-label="Previous">
+		      <a class="page-link" onclick="paging(${pageInfo.prevPage})" aria-label="Previous">
 		        <span aria-hidden="true"> &laquo;</span>
 		        <span class="sr-only">Previous</span>
 		      </a>
@@ -89,18 +110,18 @@
 		    	<c:set var="nowPage" value="${pageInfo.currentPage}"/>
 			    	<c:choose>
 				    	<c:when test="${nowPage eq currentPage}">
-				    		<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/?currentPage=${currentPage}"><b>${currentPage}</b></a></li>
+				    		<li class="page-item"><a class="page-link" onclick="paging(${currentPage})"><b>${currentPage}</b></a></li>
 				    	</c:when>
 				    	
 				    	<c:otherwise>
-				    		<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/?currentPage=${currentPage}">${currentPage}</a></li>
+				    		<li class="page-item"><a class="page-link" onclick="paging(${currentPage})">${currentPage}</a></li>
 				    	</c:otherwise>
 			    	</c:choose>
 		    	
 		    </c:forEach>
 		    
 		    <li class="page-item">
-		      <a class="page-link" href="${pageContext.request.contextPath}/?currentPage=${pageInfo.nextPage}" aria-label="Next">
+		      <a class="page-link" onclick="paging(${pageInfo.nextPage})" aria-label="Next">
 		        <span aria-hidden="true">&raquo;</span>
 		        <span class="sr-only">Next</span>
 		      </a>

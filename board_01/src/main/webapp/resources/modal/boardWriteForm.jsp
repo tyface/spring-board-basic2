@@ -18,19 +18,19 @@
 	<div class="modal-body">
 		  <div class="form-group">
 		    <label for="title" class="control-label">제목:</label>
-		    <input type="text" class="form-control" id="title" minlength="2" required>
+		    <input type="text" class="form-control" id="title" minlength="1" maxlength="50" required>
 		  </div>
 		  <div class="form-group">
 		    <label for="name" class="control-label">작성자:</label>
-		    <input type="text" class="form-control" id="name" minlength="1" required>
+		    <input type="text" class="form-control" id="name" minlength="1" maxlength="20" required>
 		  </div>
 		  <div class="form-group">
 		    <label for="password" class="control-label">비밀번호:</label>
-		    <input type="password" class="form-control" id="password" minlength="4" required>
+		    <input type="password" class="form-control" id="password" minlength="4" maxlength="20" required>
 		  </div>
 		  <div class="form-group">
 		    <label for="contnets" class="control-label">내용:</label>
-		    <textarea class="form-control" id="contents" rows="8" minlength="2" required></textarea>
+		    <textarea class="form-control" id="contents" rows="8" minlength="1" maxlength="2500" required></textarea>
 		  </div>
 	</div>
 

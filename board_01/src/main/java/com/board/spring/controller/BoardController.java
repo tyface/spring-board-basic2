@@ -52,12 +52,15 @@ public class BoardController {
 	 * @return 게시글 리스트 페이지
 	 */
 	@RequestMapping(value = "/")
-	public String main(HttpServletRequest req, Model model, @RequestParam(defaultValue = "1") int currentPage) {
+	public String main(HttpServletRequest req, Model model, @RequestParam(defaultValue = "1") int currentPage,
+			@RequestParam(defaultValue = "")String keyword, @RequestParam(defaultValue = "title") String type) {
+		Map<String, Object> dataMap = new HashMap<String, Object>();
+		dataMap.put("keyword", keyword);
+		dataMap.put("type", type);
 		// 페이지 정보
-		Map<String, Integer> pageInfoMap = boardService.setPageInfo(currentPage, boardService.boardAllCount());
+		Map<String, Object> pageInfoMap = boardService.setPageInfo(currentPage, boardService.boardCount(dataMap), keyword, type);
 		// 게시글 리스트
 		List<BoardVO> boardList = boardService.getBoardList(pageInfoMap);
-
 		model.addAttribute("boardList", boardList);
 		model.addAttribute("pageInfo", pageInfoMap);
 		
@@ -82,7 +85,7 @@ public class BoardController {
 		data.put("type", type);
 		
 		// 페이지 정보
-		Map<String, Integer> pageInfoMap = boardService.setPageInfo(currentPage, boardService.boardCount(data));
+		Map<String, Object> pageInfoMap = boardService.setPageInfo(currentPage, boardService.boardCount(data), keyword, type);
 		
 		data.put("pageInfoMap", pageInfoMap);
 		

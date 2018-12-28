@@ -17,20 +17,16 @@ public class Comm {
 	 * @param pageNavCount 	  	한번에 보여줄 페이지 네비게이터에 갯수(한줄에 몇개의 페이지번호 표출 할 것인지)
 	 * @return 페이지 정보 
 	 */
-	public static Map<String, Integer> setPageInfo(int currentPage, int totalCount, 
-			int pageListCount, int pageNavCount ){
+	public static Map<String, Object> setPageInfo(int currentPage, int totalCount, 
+			int pageListCount, int pageNavCount , String keyword, String type){
 		// 페이징에 필요한 데이터를 Map에 셋팅
-		Map<String, Integer> pageInfoMap = new HashMap<String, Integer>();
-		// 페이지 갯수 
-		int totalPage = (int)Math.ceil(totalCount / (double)pageListCount);
-		// 이전 페이지 번호
-		int prevPage = currentPage <= 1 ? 1 : currentPage - 1;
-		// 다은 페이지 번호
-		int nextPage = currentPage >= totalPage ? totalPage : currentPage + 1;
-		// 현제 페이지 기준 처음 페이지 번호
-		int firstPage = currentPage - ((currentPage-1)%pageListCount);
-		// 현제 페이지 기준 마지막 페이지 번호
-		int lastPage = firstPage + (pageListCount-1);
+		Map<String, Object> pageInfoMap = new HashMap<String, Object>();
+		
+		int totalPage = (int)Math.ceil(totalCount / (double)pageListCount);		// 페이지 갯수 
+		int prevPage = currentPage <= 1 ? 1 : currentPage - 1;					// 이전 페이지 번호
+		int nextPage = currentPage >= totalPage ? totalPage : currentPage + 1;	// 다은 페이지 번호
+		int firstPage = currentPage - ((currentPage-1)%pageListCount);			// 현제 페이지 기준 처음 페이지 번호
+		int lastPage = firstPage + (pageListCount-1);							// 현제 페이지 기준 마지막 페이지 번호
 		
 		// 페이지 번호 예외처리
 		if(currentPage <= 1) {
@@ -53,7 +49,9 @@ public class Comm {
 		pageInfoMap.put("listCount", pageListCount);	// 한 페이지에 보여질 게시글 갯수
 		pageInfoMap.put("prevPage", prevPage);			// 이전 페이지 번호
 		pageInfoMap.put("currentPage", currentPage);	// 현제 페이지 번호
-		pageInfoMap.put("nextPage", nextPage);			// 다음 페이지 번호
+		pageInfoMap.put("nextPage", nextPage);			// 다음 페이지 번호ㅋ
+		pageInfoMap.put("keyword", keyword);			// 검색 키워드
+		pageInfoMap.put("type", type);					// 검색타입
 		
 		return pageInfoMap;
 	}
