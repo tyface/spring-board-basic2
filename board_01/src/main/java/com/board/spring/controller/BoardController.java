@@ -1,6 +1,7 @@
 package com.board.spring.controller;
 
 import java.io.IOException;
+import java.security.PrivateKey;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,10 +22,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.board.spring.model.BoardVO;
-import com.board.spring.service.BoardService;
-
-import java.security.PrivateKey;
+import com.board.spring.model.CommentVO;
 import com.board.spring.security.RSA;
+import com.board.spring.service.BoardService;
+import com.board.spring.service.CommentService;
 
 /**
  * 게시글 Controller
@@ -33,8 +34,12 @@ import com.board.spring.security.RSA;
 @Controller
 public class BoardController {
 
-	@Autowired // 게시글 서비스 객체
+	@Autowired	// 게시글 서비스 객체
 	BoardService boardService;
+	
+	@Autowired	// 댓글 서비스 객체
+	CommentService commentService;
+	
 	
 	protected Logger log = LoggerFactory.getLogger(BoardController.class);
 
@@ -110,10 +115,12 @@ public class BoardController {
 	public String readBoard(Model model, int boardIdx, int currentPage) {
 		// 게시글 상세정보
 		BoardVO board = boardService.getBoard(boardIdx);
-
+		List<CommentVO> commentList = commentService.getCommentList(null, boardIdx);
+		
 		model.addAttribute("board", board);
 		model.addAttribute("currentPage", currentPage);
-
+		model.addAttribute("commentList", commentList);
+		
 		RSA rsa = RSA.getEncKey();
 		model.addAttribute("publicKeyModulus", rsa.getPublicKeyModulus());
 		model.addAttribute("publicKeyExponent", rsa.getPublicKeyExponent());

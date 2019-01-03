@@ -5,6 +5,7 @@
     <configuration>
 		 	<typeAliases>
 				<typeAlias alias="boardVO" type="com.board.spring.model.BoardVO" />
+				<typeAlias alias="CommentVO" type="com.board.spring.model.CommentVO" />
 			</typeAliases>
     </configuration>
 
