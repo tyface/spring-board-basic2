@@ -106,18 +106,15 @@
 		    </li>
 		    
 		    <c:forEach begin="${pageInfo.firstPage}" end="${pageInfo.lastPage}" step="1" var="currentPage">
-		    
 		    	<c:set var="nowPage" value="${pageInfo.currentPage}"/>
-			    	<c:choose>
-				    	<c:when test="${nowPage eq currentPage}">
-				    		<li class="page-item"><a class="page-link" onclick="paging(${currentPage})"><b>${currentPage}</b></a></li>
-				    	</c:when>
-				    	
-				    	<c:otherwise>
-				    		<li class="page-item"><a class="page-link" onclick="paging(${currentPage})">${currentPage}</a></li>
-				    	</c:otherwise>
-			    	</c:choose>
-		    	
+		    	<c:choose>
+			    	<c:when test="${nowPage eq currentPage}">
+			    		<li class="page-item"><a class="page-link" onclick="paging(${currentPage})"><b>${currentPage}</b></a></li>
+			    	</c:when>
+			    	<c:otherwise>
+			    		<li class="page-item"><a class="page-link" onclick="paging(${currentPage})">${currentPage}</a></li>
+			    	</c:otherwise>
+		    	</c:choose>
 		    </c:forEach>
 		    
 		    <li class="page-item">

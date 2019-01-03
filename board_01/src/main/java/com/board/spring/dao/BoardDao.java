@@ -32,9 +32,6 @@ public interface BoardDao {
 	// 게시글 삭제
 	public int deleteBoard(int boardIdx);
 	
-	/*// 전체 게시글 갯수 카운트
-	public int selectAllCount(); */
-	
 	// 게시글  카운트
 	public int selectCountByKeyword(Map<String, Object> dataMap); 
 		

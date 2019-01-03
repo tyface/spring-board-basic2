@@ -1,7 +1,5 @@
 package com.board.spring.model;
 
-import java.sql.Timestamp;
-
 /**
  * 게시글 VO
  * @author 유지상
@@ -14,7 +12,7 @@ public class BoardVO {
 	private String name; 		// 작성자
 	private String password; 	// 비밀번호
 	private String contents; 	// 내용
-	private Timestamp regDate;	// 작성일
+	private String regDate;	// 작성일
 
 	public int getRowNum() {
 		return rowNum;
@@ -64,11 +62,11 @@ public class BoardVO {
 		this.contents = contents;
 	}
 
-	public Timestamp getRegDate() {
+	public String getRegDate() {
 		return regDate;
 	}
 
-	public void setRegDate(Timestamp regDate) {
+	public void setRegDate(String regDate) {
 		this.regDate = regDate;
 	}
 
